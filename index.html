@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>survey analysis</title>
+  <style>
+	
+	body {
+		display: flex;
+		justify-content: center;  /* horizontal centering */
+		background-color: #ffffff;
+		font-family: "Segoe UI", sans-serif;
+		color: #000000;
+		padding: 2vw;
+	}
+
+	.chat-container {
+		top: 56.5vw;
+		position: relative;
+		width: 100%;
+		max-width: 30vw;
+		padding-top:1vw;
+		scale: 1.3;
+	}
+
+	.message {
+		display: flex;
+		align-items: flex-start;
+		margin-bottom: 1vw;
+	}
+
+	.avatar {
+		width: 2.1vw;
+		height: 2.1vw;
+		border-radius: 50%;
+		margin-right: 0.6vw;
+		margin-left: -2.9vw; /* adjust as needed */
+	}
+
+	.message-content {
+		flex: 1;
+	}
+
+	.meta {
+		margin-bottom: 0.115vw;
+	}
+
+	.username {
+		color: #000000;
+		font-weight: 600;
+		margin-right: 0.25vw;
+	}
+
+	.timestamp {
+		color: #0000006c;
+		font-size: 0.7rem;
+		font-weight: 500;
+	}
+
+	.text {
+		margin-top: 0.41vw;
+		white-space: pre-wrap;
+		line-height: 1.3rem;
+		word-wrap: break-word;
+  		overflow-wrap: break-word;
+	}
+
+	.image-wrapper {
+		width: 8vw;                /* Define your square size */
+		height: 8vw;
+		display: inline-block;
+		margin-right: 0.3vw;
+		vertical-align: top;
+		overflow: hidden;
+		border-radius: 0.28vw;
+		border: 0.11vw solid #0000001a;
+		box-shadow: 0 0 4px rgba(0, 0, 0, 0.05);
+	}
+
+	.embedded-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;         /* This makes it crop to fit the square */
+		cursor: pointer;
+		transition: opacity 0.1s ease;
+	}
+
+	.image-wrapper:hover .embedded-image {
+		opacity: 0.7;
+	}
+
+	.images-row {
+		margin-top: 0.5vw;
+		margin-bottom: 0.5vw;
+	}
+
+	.chat-intro {
+		margin-bottom: 1vw;
+		font-size: 1rem;
+		font-weight: 400;
+		color: #333;
+		line-height: 1.4rem;
+		font-family: "Segoe UI", sans-serif;
+	}
+
+	pre {
+		background: #f5f5f5;
+		padding: 0.8em 1em;
+		border-radius: 6px;
+		font-size: 0.9rem;
+		overflow-x: auto;
+		white-space: pre; /* this preserves spacing */
+		margin: 1em 0;
+	}
+
+	code {
+		font-family: Consolas, Monaco, 'Courier New', monospace;
+		color: #333;
+	}
+
+  </style>
+</head>
+
+<body>
+  <div class="chat-container">
+
+		<div class="chat-intro"><br><br>## intro ##<br><br>On May 12, 2025, Valve <a href="https://www.teamfortress.com/post.php?id=244323">&quot;Relaxed in-game chat restrictions for certain accounts&quot;</a>, but that is obviously very vague, and it's confusing trying to understand what to do as a f2p to become able to text/voice chat with people.<br><br>so <a href="https://youtu.be/hYZHd7h1cLI">i created a survey</a> asking f2p players to send info about their tf2 & steam account traits and their ability to talk/not talk. the survey has been completed and i released the data from it, and smart people have analyzed it and sent me their analysis of the data.<br><br>so here they are:<br><br>(also we're probably good on the analysis reports. i'm unlikely to update this website any further, thanks :) )<br><br></div>
+			
+			<div class="message">
+				<img src="https://cdn.discordapp.com/avatars/334106527893815298/e18e352d9e3eb64aa1dd55a6f7009e2c.png?size=4096" alt="Avatar" class="avatar">
+				<div class="message-content">
+					<div class="meta">
+						<span class="username">Indigolake</span>
+						<span class="timestamp" data-unixtime="1748322000"></span>
+					</div>
+						<div class="text">Hi! I'm a statistics person and I kind of know what to do. Sort of.<br><br>So I ran multinom analysis on this, and based off the coefficients (namely, how much each individual increase of a predictor. I ran the thing through R, mostly because I wanted to see if anything confounding would show up (for example, it's likely that how many hours you played and your tf2 rank would both increase together, so I'd prefer to eliminate tf2 rank so that the "hours" variable would be stronger).<br><br>Long story short, mostly because of data cleaning, I can confidently say that there is absolutely no reason as to what causes people to receive certain factors. I'll attach my R script to a reply to this comment. TBH I probably did something wrong, i'm a logistic regression kind of guy and not a multinomial kind of guy, so I had to go through my very awful school notes for this lol.<br><br>My R script is at <a href="pastebin.com/38DTvMJQ">pastebin.com/38DTvMJQ</a>. It's not good, but I spent 2 hours on this and it's past midnight<br><br>My results might have also got cut off, but basically all coefficients were <1,except oddly spending money which had a 2.5 coefficient to both chat and vc and a 1.2 coefficient to text but no vc. No change for vc but no chat. Basically everything else had no effect.<br><br>Output from R. What's important is coefficients (how much a single change in that contributor results in a change in outcome, higher is stronger) and std error (lower means it's more accurate)</div>
+					<div class="images-row">
+						<a href="https://i.imgur.com/VIg4xXu.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/VIg4xXu.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p>From my stuff I found that the only two things that mattered were account age and casual rank. Hours did seem to correlate positively but none to any significant degree.<br><br>My guess is also some sort of trust factor.</p>
+				</div>
+			</div>
+
+			<div class="message">
+				<img src="https://cdn.discordapp.com/avatars/1074600111239344128/0c0eeae57ec6356004c1e863d98bca35.png?size=4096" alt="Avatar" class="avatar">
+				<div class="message-content">
+					<div class="meta">
+						<span class="username">Allker</span>
+						<span class="timestamp" data-unixtime="1748323320"></span>
+					</div>
+					<div class="text">FYI I have a very limited data science background and I did some janky stuff with the data bc I was lazy. Here's what I found in my brief look at the data:<br><br>i did a multiple linear regression and probably spending money is the most important factor for getting more chat permissions but definitely not the exclusive one, as shounic said in the video</div>
+					<div class="images-row">
+						<a href="https://i.imgur.com/EWeCarV.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/EWeCarV.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<div class="text">i also did a random forest machine learning classifier and these are the most important factors outputted (note that importance is just a measure of effect and can be positive or negative, the multiple linear regression suggests the direction of the effect but i'm not sure if you can exactly figure out the effect like that)</div>
+					<div class="images-row">
+						<a href="https://i.imgur.com/RV6IARh.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/RV6IARh.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p>i'm guessing there's some trust factor based on casual level, steam account age, and spending money. As noted in shounic's video, more hours seems to disadvantage you and I'm not sure why. for this data, I had already filtered out most of the funny numbers like 69420 (I think). also, I didn't post the data here but strangely hours in TF2 also poorly correlates with all other variables. if I had to guess, (1) there's a third more explanatory variable like more hours = more likely to have cheated at some point or done something to make the trust factor angry, (2) there's some weird inputs into the hours question that I didn't catch, or (3) I messed up.<br><br>TL;DR: no clear explanation still but maybe trust factor based on casual level, steam acct age, and money use?</p>
+				</div>
+			</div>
+
+			<div class="message">
+				<img src="https://cdn.discordapp.com/avatars/170342304182304768/4366dd18ed0ceb34741a0432f91c0d9a.png?size=4096" alt="Avatar" class="avatar">
+				<div class="message-content">
+					<div class="meta">
+						<span class="username">mooshua</span>
+						<span class="timestamp" data-unixtime="1748324580"></span>
+					</div>
+					<div class="text"> basic null hypothesis on the csv you posted in the youtube video. significant factors seem to be... everything? grain of salt because I probably did something wrong</div>
+					<div class="images-row">
+						<a href="https://i.imgur.com/W0AnQzL.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/W0AnQzL.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<div class="text">(significance values less than 0.05 are considered significant)<br><br>for the non data nerds the bolded rows on the right means that the change in average is not random<br><br>looked into it some more. summary of results:<br><br></div>
+					<p>The biggest factors influencing who could speak are:</p>
+					<ul>
+					<li>Spending money on the steam account (50%, <strong>p. &lt;0.001</strong>)</li>
+					<li>TF2 casual rank (1.5% per 10 levels, <strong>p. &lt; 0.001</strong>)</li>
+					<li>having steam guard (4%, p. 0.14)</li>
+					<li>never using a vpn (4%, p. 0.27)</li>
+					</ul>
+					<p>This is fit with a r2 of 0.31 and a standard error of 41%. Meaning it&#39;s not a very helpful prediction in practice.</p>
+					<p>summary of data</p>
+					<div class="images-row">
+						<a href="https://i.imgur.com/NWLLOS4.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/NWLLOS4.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p><strong>Question 1: How does the amount of &quot;trust factors&quot; a player have impact their chance of having the ability to speak?</strong><br><br>There is a very strong relationship between having more trust factors (eg linking your phone, purchasing stuff, never using a vpn) and having the ability to speak. of the 266 responders who met all 5 trust factors, 75% had access to speak, and of the 330 who had 4/5 trust factors, 50% had the ability to speak.</p>
+					<div class="images-row">
+						<a href="https://i.imgur.com/NpmUsDu.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/NpmUsDu.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+						<a href="https://i.imgur.com/NaAYxko.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/NaAYxko.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p><strong>Question 2: How does the account&#39;s age impact their chance of having the ability to speak?</strong><br><br>There was a positive relationship between account age and both meeting trust factors and having the ability to speak. While both age and trust factors were correlated to the ability to speak, age had a correlation with significance p = 0.003 (r2 = 0.66) and trust had a correlation with significance p = 0.00001 (r2 = 0.95) indicating that trust had the stronger correlation.</p>
+					<div class="images-row">
+						<a href="https://i.imgur.com/916wnCy.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/916wnCy.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+						<a href="https://i.imgur.com/c7ovtCJ.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/c7ovtCJ.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p><strong>Question 3: How does hours played impact the of having the ability to speak?</strong><br><br>Similar to account age, hours played did not seem to play a significant role, demonstrating a neutral relationship when interpreted cumulatively.</p>
+					<div class="images-row">
+						<a href="https://i.imgur.com/OSHKLK7.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/OSHKLK7.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+						<a href="https://i.imgur.com/ajHAbTn.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/ajHAbTn.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p><strong>Question 4: Does the amount of alts a player has play a role in ftp chat access?</strong><br><br>Interestingly, only when a player had 1-2 alts, and this does not track with &quot;trust factors&quot;. I suspect this may be due to players evading VAC bans or similar.</p>
+					<div class="images-row">
+						<a href="https://i.imgur.com/Daah5sY.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/Daah5sY.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p><strong>Question 5: What about TF2 level?</strong><br><br>Similar pattern to cumulative hours: strong neutral relationship.</p>
+					<div class="images-row">
+						<a href="https://i.imgur.com/T9Ar8ef.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/T9Ar8ef.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+						<a href="https://i.imgur.com/mIjuSkB.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/mIjuSkB.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="message">
+				<img src="https://cdn.discordapp.com/avatars/240613883511963658/db4262ebe871e24322d4fafd749eed38.png?size=4096" alt="Avatar" class="avatar">
+				<div class="message-content">
+					<div class="meta">
+						<span class="username">Anzats</span>
+						<span class="timestamp" data-unixtime="1748351940"></span>
+					</div>
+						<div class="text">I also did some analysis. I fitted logistic regression + random forest models per prediction task.
+I had some trouble with the tf2 gameplay stats so I ignored them so i could go to sleep earlier last night
+I did this in like 30 minutes, so it was rushed
+
+My results are the images I shared + the text below
+
+TL;DR having spent money, being F2P, and account age seem to be the most important variables
+
+---
+Random Forest Importance: Like what @Allker mentioned, importance is just how big the effect is, not necessary is it a positive or negative effect.
+
+predicting text access Random Forest importances</div>
+<pre><code>isF2P 0.26211987142817705
+accountAgeYears 0.2250567726188037
+numAccounts 0.06326276438984714
+hasSpentMoney 0.3418810255468009
+hasVPN 0.012715351362446394
+has2FA 0.03651587358588992
+hasPhoneNumber 0.04302179354038701
+hasVerifiedEmail 0.015426547527647832
+---
+model performance metrics
+logit accuracy = 0.8902027027027027
+logit AUC = 0.9366054125138427
+rf accuracy = 0.8842905405405406
+rf auc = 0.9269604789590256</code></pre>
+					<p>predicting VC access Random Forest Importances</p>
+					<pre><code>isF2P 0.2208675736711313
+accountAgeYears 0.30530870140096367
+numAccounts 0.10099975905346593
+hasSpentMoney 0.24610241160482207
+hasVPN 0.02451687519427361
+has2FA 0.04029075189734292
+hasPhoneNumber 0.04306455191118717
+hasVerifiedEmail 0.01884937526681326
+---
+model performance metrics
+logit accuracy = 0.8336148648648649
+logit AUC = 0.8786690848214286
+rf accuracy = 0.8243243243243243
+rf auc = 0.8549153645833332</code></pre>
+					<div class="images-row">
+						<a href="https://i.imgur.com/to6wJhg.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/to6wJhg.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+						<a href="https://i.imgur.com/tXHB5Dx.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/tXHB5Dx.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>	
+
+			<div class="message">
+				<img src="https://cdn.discordapp.com/avatars/168436651721228288/6cfd71ecd6d45179f3daacc9e65b80b2.png?size=4096" alt="Avatar" class="avatar">
+				<div class="message-content">
+					<div class="meta">
+						<span class="username">Mike</span>
+						<span class="timestamp" data-unixtime="1748355540"></span>
+					</div>
+						<div class="text">Greetings Shounic!<p>My name is Mike, I am an <a href="https://steamcommunity.com/id/MikedeKokkie/">avid TF2 fan</a> and I work as a <a href="https://github.com/MikedeKokkie">Data Scientist in the life sciences for a hospital in the Netherlands</a>.<br>When I saw your most recent upload I felt spoken to, so this afternoon I&#39;ve coded away to try and make more sense out of the survey data you provided.</p><p>To cut straight to the chase, after removing 31 data entries which contained demonstrably false information, I&#39;ve modelled a decision-making tree which took multiple parameters into account (instead of just one at a time) to try and approach Valve&#39;s Trust Factor for Chat usage. The model increased the matching percentages a lot compared to your latest video, although there are still a few submissions that don&#39;t seem to match the model. This could be caused by:</p><ol><li>People filling in the form with false or random information (but not blatantly so; stuff I didn&#39;t filter out) or</li><li>Valve&#39;s Trust System being even more complicated (or random, because hey, this is Valve we&#39;re talking about) than just the factors you asked for.</li></ol><p>I&#39;ll try to attach my findings to this post, if you&#39;re interested I am totally open to share the code or have more of a chat about it 😄</p><p>To clarify; first image is single-parameter correlation, second is the model decision tree (so the thresholds for Casual Level and In-Game Hours are fitted)</p></div>
+					<div class="images-row">
+						<a href="https://i.imgur.com/RM5CoG6.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/RM5CoG6.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+						<a href="https://i.imgur.com/dfTe8UX.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/dfTe8UX.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p>If you&#39;re curious, I programmed this in R in the span of an afternoon. It&#39;s about 100 lines of code (but most of it is data wrangling). I&#39;ve <a href="https://github.com/MikedeKokkie/TF2FreeToPlaySurvey">uploaded the code</a> as well as a knitted HTML report of said code and the images/powerpoint I made of said images. I&#39;d be happy to provide you any more information if needed!</p>
+					<p>And since someone in my server asked me for this, the TLDR conclusions of my analysis (and approach to Valve&#39;s Trust System) so far are:</p><ul><li>If you have bought anything on steam + are premium in TF2 -&gt; <strong>99% of people can use text chat</strong> (I suspect 100% but some incorrect answers dropped it to 99)</li><li>If you have NOT bought anything on steam AND you are F2P-&gt; <strong>84% of people can&#39;t use text chat</strong> (I suspect there is noise here caused by the smaller n) </li><li>If you have bought anything on Steam, but not in TF2 (so you&#39;re still F2P), it <strong>significantly depends on in-game factors</strong> (casual rank and/or hours in-game).</li><li>Same goes for if you have not bought anything yet on Steam, but you are Premium in TF2, though I want to make a side note here because I wonder how in this case being F2P would be relevant, because if you have never bought anything on steam you also can&#39;t be premium? Is there a way to gift people premium? </li><li>Parameters which <strong>definitely do not matter</strong> are Having Other Steam Accounts or Using VPN&#39;s. They show a flat 0 correlation and are ignored by the model.</li><li>Parameters which <em>might</em> be relevant but are not significant enough according to my model are: Account Age and having Steam Guard / Email / Phone.</li></ul>The 18-Hour and Casual Level 7 values are set by the model overfitting the data. There might be real thresholds, but it&#39;s gonna be hard for us to know them.
+				</div>
+			</div>	
+
+			<div class="message">
+				<img src="https://img.apmcdn.org/768cb350c59023919f564341090e3eea4970388c/normal/5034f3-20180309-rick-astley.jpg" alt="Avatar" class="avatar">
+				<div class="message-content">
+					<div class="meta">
+						<span class="username">(requested anonymity)</span>
+						<span class="timestamp" data-unixtime="1748366820"></span>
+					</div>
+						<div class="text">im an ML engineer!! after cleaning the file (like removing rows where people said they have a zillion hours on tf2 ._.), I used the csv file you uploaded in your latest video and ran a feature importance model (basically uses decision trees to decide which column plays the most significant role in determining what an f2p can/cannot do), and these were there results, let me know if you want me to send the full python file!</div>
+					<div class="images-row">
+						<a href="https://i.imgur.com/QtKGBbx.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/QtKGBbx.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+					<p>looks like the hours they have and thier rank are the most important columns (26.2% and 23.5% respectively), and then the steam account info, and so on and so forth</p>
+					<div class="images-row">
+						<a href="https://i.imgur.com/Yem4tay.png" target="_blank" style="text-decoration: none;">
+							<div class="image-wrapper">
+								<img src="https://i.imgur.com/Yem4tay.png" class="embedded-image" title="click to view full size">
+							</div>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="message">
+				<img src="https://i.imgur.com/rrKMDyB.png" alt="Avatar" class="avatar">
+				<div class="message-content">
+					<div class="meta">
+						<span class="username">shounic</span>
+						<span class="timestamp" data-unixtime="1748368740"></span>
+					</div>
+					<div class="text">so uh........ you come here often?</div>
+				</div>
+			</div>
+			
+
+			<!-- Add more .message blocks here -->
+  </div>
+
+	<script>
+
+		document.querySelectorAll('.timestamp').forEach(el => {
+			const unix = parseInt(el.getAttribute('data-unixtime'), 10) * 1000;
+			const date = new Date(unix);    const now = new Date();
+			const diffMs = now - date;
+
+			const minutes = Math.floor(diffMs / (1000 * 60));
+			const hours = Math.floor(minutes / 60);
+			const days = Math.floor(hours / 24);
+
+			let agoText = "";
+			if (days > 0) {
+			agoText = `${days} day${days > 1 ? "s" : ""} ago`;
+			} else if (hours > 0) {
+			agoText = `${hours} hour${hours > 1 ? "s" : ""} ago`;
+			} else if (minutes > 0) {
+			agoText = `${minutes} minute${minutes > 1 ? "s" : ""} ago`;
+			} else {
+			agoText = "just now";
+			}
+
+			const formatted = date.toLocaleString(undefined, {
+			weekday: "long",
+			day: "numeric",
+			month: "long",
+			year: "numeric",
+			hour: "2-digit",
+			minute: "2-digit",
+			hour12: true
+			});
+
+    		el.textContent = `${formatted} · ${agoText}`;
+		});	
+	</script>
+
+</body>
+</html>
